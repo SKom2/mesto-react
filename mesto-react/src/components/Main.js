@@ -6,12 +6,12 @@ export function Main() {
     }
 
     function handleEditProfileClick() {
-        const popupEditProfile = document.querySelector('#popup_edit');
+        const popupEditProfile = document.querySelector('#popup_edit-profile');
         popupEditProfile.classList.add('popup_opened')
     }
 
     function handleAddPlaceClick() {
-        const popupAddPlace = document.querySelector('#popup_add');
+        const popupAddPlace = document.querySelector('#popup_add-cards');
         popupAddPlace.classList.add('popup_opened')
     }
 
