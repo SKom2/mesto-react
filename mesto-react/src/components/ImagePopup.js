@@ -1,4 +1,4 @@
-export function ImagePopup(props) {
+export function ImagePopup () {
     return (
         <div className="popup popup_type_photo" id="popup_photo">
             <div className="popup__container popup__container_type_photo">
