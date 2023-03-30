@@ -4,7 +4,7 @@ import {Main} from "./Main";
 import {Footer} from "./Footer";
 import {PopupWithForm} from "./PopupWithForm";
 import {ImagePopup} from "./ImagePopup";
-import React from "react";
+import React, {useState} from "react";
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);

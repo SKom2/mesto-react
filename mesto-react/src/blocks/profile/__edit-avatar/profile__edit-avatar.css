@@ -9,6 +9,8 @@
     padding: 0;
     position: relative;
     transition: background-color .3s linear;
+    background-size: cover;
+    border-radius: 50%;
 }
 
 .profile__edit-avatar:before {
