@@ -1,15 +1,11 @@
 import React from "react";
 import {apiConfig} from "../utils/constants.js";
 import {Api} from "../modules/Api";
-import {Card} from "./Card";
-
-
 
 export function Main(props) {
     const [userName, setUserName] = React.useState();
     const [userDescription, setUserDescription] = React.useState();
     const [userAvatar, setUserAvatar] = React.useState();
-    const [cards, setCards] = React.useState([]);
 
     const api = new Api(apiConfig)
 
@@ -22,15 +18,6 @@ export function Main(props) {
             })
             .catch(err => console.log(`Ошибка: ${err}`))
     }, [])
-
-    React.useEffect(() => {
-        api.getCards()
-            .then((cardsData) => {
-                setCards(cardsData);
-            })
-            .catch(err => console.log(`Ошибка: ${err}`))
-    }, [])
-
 
     return(
         <>
@@ -49,7 +36,6 @@ export function Main(props) {
                     </div>
                 </section>
             </main>
-            <Card cards={cards}></Card>
         </>
     )
 }

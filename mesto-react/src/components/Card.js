@@ -1,18 +1,4 @@
-import React, { useState } from "react";
-import { ImagePopup } from "./ImagePopup";
-
 export function Card(props) {
-    const [popupVisible, setPopupVisible] = useState(false);
-    const [selectedCard, setSelectedCard] = useState([]);
-
-    function handleCardImageClick(card) {
-        setPopupVisible(true);
-        setSelectedCard(card);
-    }
-    function handlePopupClose() {
-        setPopupVisible(false);
-    }
-
     return (
         <>
             <section className="main__places places root__container">
@@ -22,7 +8,7 @@ export function Card(props) {
                             alt=""
                             className="card__image"
                             style={{ backgroundImage: `url(${card.link})` }}
-                            onClick={() => handleCardImageClick(card)}
+                            onClick={() => props.onCardClick(card)}
                         ></img>
                         <div className="card__heading">
                             <h2 className="card__title">{card.name}</h2>
@@ -37,16 +23,6 @@ export function Card(props) {
                     </article>
                 ))}
             </section>
-            {selectedCard && (
-                <ImagePopup
-                    id={selectedCard._id}
-                    link={selectedCard.link}
-                    name={selectedCard.name}
-                    isOpen={popupVisible}
-                    onClose={handlePopupClose}
-                />
-            )}
-
         </>
     );
 }

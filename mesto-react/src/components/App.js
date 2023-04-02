@@ -5,12 +5,28 @@ import {Footer} from "./Footer";
 import {PopupWithForm} from "./PopupWithForm";
 import {ImagePopup} from "./ImagePopup";
 import React, {useState} from "react";
+import {Card} from "./Card";
+import {apiConfig} from "../utils/constants.js";
+import {Api} from "../modules/Api";
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+    const [isClickCardPopupOpen, setClickCardPopupOpen] = useState(false);
     const [isPopupClose, setPopupClose] = React.useState(false);
+    const [cards, setCards] = React.useState([]);
+    const [selectedCard, setSelectedCard] = useState([]);
+
+    const api = new Api(apiConfig);
+
+    React.useEffect(() => {
+        api.getCards()
+            .then((cardsData) => {
+                setCards(cardsData);
+            })
+            .catch(err => console.log(`Ошибка: ${err}`))
+    })
 
     function handleEditProfileClick() {
         setPopupClose(false)
@@ -39,6 +55,11 @@ function App() {
         }
     }
 
+    function handleCardImageClick(card) {
+        setClickCardPopupOpen(!isClickCardPopupOpen);
+        setSelectedCard(card);
+    }
+
     function closeAllPopups() {
         if (isPopupClose === false) {
             const popups = document.querySelectorAll('.popup')
@@ -56,6 +77,9 @@ function App() {
                     setPopupClose(!isPopupClose);
                     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
                 }
+                if (isClickCardPopupOpen) {
+                    setClickCardPopupOpen(!isClickCardPopupOpen)
+                }
             })
         }
     }
@@ -69,7 +93,9 @@ function App() {
               onEditAvatar = {handleEditAvatarClick}
           >
           </Main>
+          <Card cards={cards} onCardClick={handleCardImageClick}></Card>
           <Footer></Footer>
+
 
           <PopupWithForm name="edit-profile" title="Редактировать профиль" button="Сохранить" onClose={closeAllPopups}>
               <input type="text" className="form__input form__input_el_heading" id="name" name="name" placeholder="Имя" minLength="2" maxLength="40" required></input>
@@ -87,6 +113,15 @@ function App() {
               <input type="url" className="form__input form__input_el_heading" id="avatar-link" name="link" placeholder="Ссылка на картинку" required></input>
               <span className="form__input-error avatar-link-error"></span>
           </PopupWithForm>
+          {selectedCard && (
+            <ImagePopup
+                id={selectedCard._id}
+                link={selectedCard.link}
+                name={selectedCard.name}
+                isOpen={isClickCardPopupOpen}
+                onClose={closeAllPopups}
+            />
+          )}
         </>
       );
     }
