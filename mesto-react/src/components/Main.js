@@ -17,7 +17,7 @@ export function Main(props) {
                 setUserAvatar(userData.avatar);
             })
             .catch(err => console.log(`Ошибка: ${err}`))
-    }, [])
+    })
 
     return(
         <>
