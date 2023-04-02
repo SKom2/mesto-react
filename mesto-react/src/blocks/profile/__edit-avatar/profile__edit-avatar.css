@@ -10,6 +10,7 @@
     position: relative;
     transition: background-color .3s linear;
     background-size: cover;
+    background-position: center;
     border-radius: 50%;
 }
 
