@@ -7,9 +7,9 @@ export function Main(props) {
     const [userDescription, setUserDescription] = React.useState();
     const [userAvatar, setUserAvatar] = React.useState();
 
-    const api = new Api(apiConfig)
 
     React.useEffect(() => {
+        const api = new Api(apiConfig)
         api.getProfile()
             .then((userData) => {
                 setUserName(userData.name);
@@ -17,7 +17,7 @@ export function Main(props) {
                 setUserAvatar(userData.avatar);
             })
             .catch(err => console.log(`Ошибка: ${err}`))
-    })
+    }, [])
 
     return(
         <>

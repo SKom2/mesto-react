@@ -14,73 +14,58 @@ function App() {
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
     const [isClickCardPopupOpen, setClickCardPopupOpen] = useState(false);
-    const [isPopupClose, setPopupClose] = React.useState(false);
     const [cards, setCards] = React.useState([]);
     const [selectedCard, setSelectedCard] = useState([]);
 
-    const api = new Api(apiConfig);
 
     React.useEffect(() => {
+        const api = new Api(apiConfig);
         api.getCards()
             .then((cardsData) => {
                 setCards(cardsData);
             })
             .catch(err => console.log(`Ошибка: ${err}`))
-    })
+    }, [])
 
     function handleEditProfileClick() {
-        setPopupClose(false)
-        if (isEditProfilePopupOpen === false) {
-            const popupEditProfile = document.querySelector('#popup_edit-profile');
-            popupEditProfile.classList.add('popup_opened');
-            setEditProfilePopupOpen(!isEditProfilePopupOpen);
-        }
+        const popupEditProfile = document.querySelector('#popup_edit-profile');
+        popupEditProfile.classList.add('popup_opened');
+        setEditProfilePopupOpen(true);
     }
 
     function handleAddPlaceClick() {
-        setPopupClose(false)
-        if (isAddPlacePopupOpen === false) {
-            const popupAddPlace = document.querySelector('#popup_add-cards');
-            popupAddPlace.classList.add('popup_opened');
-            setAddPlacePopupOpen(!isAddPlacePopupOpen)
-        }
+        const popupAddPlace = document.querySelector('#popup_add-cards');
+        popupAddPlace.classList.add('popup_opened');
+        setAddPlacePopupOpen(true)
     }
 
     function handleEditAvatarClick(){
-        setPopupClose(false)
-        if (isAddPlacePopupOpen === false) {
-            const popupEditAvatar = document.querySelector('#popup_edit-avatar')
-            popupEditAvatar.classList.add('popup_opened');
-            setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
-        }
+        const popupEditAvatar = document.querySelector('#popup_edit-avatar')
+        popupEditAvatar.classList.add('popup_opened');
+        setEditAvatarPopupOpen(true);
     }
 
     function handleCardImageClick(card) {
-        setClickCardPopupOpen(!isClickCardPopupOpen);
+        setClickCardPopupOpen(true);
         setSelectedCard(card);
     }
 
     function closeAllPopups() {
-        if (isPopupClose === false) {
-            const popups = document.querySelectorAll('.popup')
-            popups.forEach((popup) => {
-                popup.classList.remove('popup_opened');
-                if(isEditProfilePopupOpen){
-                    setPopupClose(!isPopupClose);
-                    setEditProfilePopupOpen(!isEditProfilePopupOpen);
-                }
-                if(isAddPlacePopupOpen){
-                    setPopupClose(!isPopupClose);
-                    setAddPlacePopupOpen(!isAddPlacePopupOpen);
-                }
-                if(isEditAvatarPopupOpen){
-                    setPopupClose(!isPopupClose);
-                    setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
-                }
-                if (isClickCardPopupOpen) {
-                    setClickCardPopupOpen(!isClickCardPopupOpen)
-                }
-            })
+        const popups = document.querySelectorAll('.popup')
+        popups.forEach((popup) => {
+            popup.classList.remove('popup_opened');
+        })
+        if(isEditProfilePopupOpen){
+            setEditProfilePopupOpen(false);
+        }
+        if(isAddPlacePopupOpen){
+            setAddPlacePopupOpen(false);
+        }
+        if(isEditAvatarPopupOpen){
+            setEditAvatarPopupOpen(false);
+        }
+        if (isClickCardPopupOpen) {
+            setClickCardPopupOpen(false)
         }
     }
 
