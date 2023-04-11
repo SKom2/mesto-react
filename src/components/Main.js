@@ -1,22 +1,9 @@
-import React, {useState, useEffect, useContext} from "react";
-import {apiConfig} from "../utils/constants.js";
-import {Api} from "../modules/Api";
+import React, {useContext} from "react";
 import {Card} from "./Card";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 export function Main(props) {
-    const [cards, setCards] = useState([]);
-    const {currentUser} = useContext(CurrentUserContext)
-
-
-    useEffect(() => {
-        const api = new Api(apiConfig)
-        api.getCards()
-            .then((cardsData) => {
-                setCards(cardsData);
-            })
-            .catch(err => console.log(`Ошибка: ${err}`))
-    }, [])
+    const {currentUser, cards} = useContext(CurrentUserContext)
 
     return(
         <>

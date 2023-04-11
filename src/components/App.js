@@ -16,6 +16,7 @@ function App() {
     const [isClickCardPopupOpen, setClickCardPopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState([]);
     const [currentUser, setCurrentUser] = useState([])
+    const [cards, setCards] = useState([]);
 
     useEffect(() => {
         const api = new Api(apiConfig);
@@ -23,6 +24,11 @@ function App() {
             .then((userData) => {
                 setCurrentUser(userData)
             })
+        api.getCards()
+            .then((cardsData) => {
+                setCards(cardsData);
+            })
+            .catch(err => console.log(`Ошибка: ${err}`))
     })
 
     function handleEditProfileClick() {
@@ -50,7 +56,7 @@ function App() {
     }
 
     return (
-        <CurrentUserContext.Provider value={{ currentUser }}>
+        <CurrentUserContext.Provider value={{ currentUser, cards }}>
           <Header />
           <Main
               onEditProfile = {handleEditProfileClick}
