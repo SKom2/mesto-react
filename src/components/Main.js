@@ -1,23 +1,16 @@
-import React from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {apiConfig} from "../utils/constants.js";
 import {Api} from "../modules/Api";
 import {Card} from "./Card";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 export function Main(props) {
-    const [userName, setUserName] = React.useState('Жак-Ив-Кусто');
-    const [userDescription, setUserDescription] = React.useState('Исследователь океана');
-    const [userAvatar, setUserAvatar] = React.useState('https://static-cse.canva.com/blob/846900/photo1502082553048f009c37129b9e1583341920812.jpeg');
-    const [cards, setCards] = React.useState([]);
+    const [cards, setCards] = useState([]);
+    const {currentUser} = useContext(CurrentUserContext)
 
-    React.useEffect(() => {
+
+    useEffect(() => {
         const api = new Api(apiConfig)
-        api.getProfile()
-            .then((userData) => {
-                setUserName(userData.name);
-                setUserDescription(userData.about);
-                setUserAvatar(userData.avatar);
-            })
-            .catch(err => console.log(`Ошибка: ${err}`))
         api.getCards()
             .then((cardsData) => {
                 setCards(cardsData);
@@ -33,11 +26,11 @@ export function Main(props) {
                         <button
                             className="profile__edit-avatar"
                             onClick={props.onEditAvatar}
-                            style={{backgroundImage: `url(${userAvatar})`}}>
+                            style={{backgroundImage: `url(${currentUser.avatar})`}}>
                         </button>
                         <div className="profile__info">
                             <div className="profile__header">
-                                <h1 className="profile__title">{userName}</h1>
+                                <h1 className="profile__title">{currentUser.name}</h1>
                                 <button
                                     aria-label="Кнопка для открытия попапа"
                                     type="button"
@@ -46,7 +39,7 @@ export function Main(props) {
                                     onClick={props.onEditProfile}>
                                 </button>
                             </div>
-                            <p className="profile__subtitle">{userDescription}</p>
+                            <p className="profile__subtitle">{currentUser.about}</p>
                         </div>
                         <button
                             type="button"
