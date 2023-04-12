@@ -15,6 +15,10 @@ export function Card(props) {
         props.onCardLike(props.card)
     }
 
+    function handleDeleteClick() {
+        props.onCardDelete(props.card)
+    }
+
     return (
         <>
             <article className="card" key={props.card._id}>
@@ -33,7 +37,7 @@ export function Card(props) {
                         <span className="card__like-counter">{props.card.likes.length}</span>
                     </div>
                 </div>
-                {isOwn && <button type="button" className="card__delete"></button>}
+                {isOwn && <button type="button" className="card__delete" onClick={handleDeleteClick}></button>}
             </article>
         </>
     );
