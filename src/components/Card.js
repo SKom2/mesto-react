@@ -11,6 +11,10 @@ export function Card(props) {
         `card__like ${isLiked && 'card__like_active'}`
     );
 
+    function handleLikeClick() {
+        props.onCardLike(props.card)
+    }
+
     return (
         <>
             <article className="card" key={props.card._id}>
@@ -23,7 +27,7 @@ export function Card(props) {
                 <div className="card__heading">
                     <h2 className="card__title">{props.card.name}</h2>
                     <div className="card__likes">
-                        <button type="button" className={cardLikeButtonClassName}>
+                        <button type="button" className={cardLikeButtonClassName} onClick={handleLikeClick}>
                             {props.card.likes._id}
                         </button>
                         <span className="card__like-counter">{props.card.likes.length}</span>

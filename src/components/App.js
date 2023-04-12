@@ -18,8 +18,9 @@ function App() {
     const [currentUser, setCurrentUser] = useState([])
     const [cards, setCards] = useState([]);
 
+    const api = new Api(apiConfig);
+
     useEffect(() => {
-        const api = new Api(apiConfig);
         api.getProfile()
             .then((userData) => {
                 setCurrentUser(userData)
@@ -29,7 +30,7 @@ function App() {
                 setCards(cardsData);
             })
             .catch(err => console.log(`Ошибка: ${err}`))
-    })
+    }, [])
 
     function handleEditProfileClick() {
         setEditProfilePopupOpen(true);
@@ -55,6 +56,23 @@ function App() {
         setClickCardPopupOpen(false)
     }
 
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+        if (isLiked) {
+            api.handleControlLikes("DELETE", card._id)
+                .then((newCard) => {
+                    setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+                });
+        } else {
+            api.handleControlLikes("PUT", card._id)
+                .then((newCard) => {
+                    setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+                });
+        }
+    }
+
+
     return (
         <CurrentUserContext.Provider value={{ currentUser, cards }}>
           <Header />
@@ -63,6 +81,7 @@ function App() {
               onAddPlace = {handleAddPlaceClick}
               onEditAvatar = {handleEditAvatarClick}
               onCardClick = {handleCardImageClick}
+              onCardLike = {handleCardLike}
           >
           </Main>
           <Footer />
