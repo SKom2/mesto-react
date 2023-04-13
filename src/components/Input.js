@@ -1,4 +1,6 @@
-export function Input(props) {
+import {forwardRef} from "react";
+
+export const Input = forwardRef((props, ref) => {
     return(
         <input
             type={props.type}
@@ -10,7 +12,8 @@ export function Input(props) {
             maxLength={props.maxLength}
             value={props.value || ''}
             onChange={props.onChange}
+            ref={ref}
             required
         />
     )
-}
+})
