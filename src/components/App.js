@@ -2,7 +2,6 @@ import '../App.css';
 import {Header} from "./Header";
 import {Main} from "./Main";
 import {Footer} from "./Footer";
-import {PopupWithForm} from "./PopupWithForm";
 import {ImagePopup} from "./ImagePopup";
 import React, {useEffect, useState} from "react";
 import {Api} from "../modules/Api";
@@ -10,6 +9,7 @@ import {apiConfig} from "../utils/constants";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import {EditProfilePopup} from "./EditProfilePopup";
 import {EditAvatarPopup} from "./EditAvatarPopup";
+import {AddPlacePopup} from "./AddPlacePopup";
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -103,6 +103,15 @@ function App() {
 
     }
 
+    function handleAddPlaceSubmit(data) {
+        api.addCard(data)
+            .then((newCard) => {
+                setCards([newCard, ...cards])
+                closeAllPopups()
+            })
+            .catch(err => console.log(`Ошибка добавления карточки: ${err}`))
+    }
+
     return (
         <CurrentUserContext.Provider value={{ currentUser, cards }}>
           <Header />
@@ -126,34 +135,11 @@ function App() {
               isOpen={isEditAvatarPopupOpen}
               onUpdateAvatar={handleUpdateAvatar}
           />
-            <PopupWithForm
-                name="add-cards"
-                title="Новое место"
-                button="Создать"
-                onClose={closeAllPopups}
-                isOpen={isAddPlacePopupOpen}
-            >
-                <input
-                    type="text"
-                    className="form__input form__input_el_heading"
-                    id="photo-name"
-                    name="name"
-                    placeholder="Название"
-                    minLength="2"
-                    maxLength="30"
-                >
-                </input>
-                <span className="form__input-error photo-name-error"></span>
-                <input
-                    type="url"
-                    className="form__input form__input_el_subheading"
-                    id="photo-link"
-                    name="link"
-                    placeholder="Ссылка на картинку"
-                >
-                </input>
-                <span className="form__input-error photo-link-error"></span>
-            </PopupWithForm>
+          <AddPlacePopup
+              onClose={closeAllPopups}
+              isOpen={isAddPlacePopupOpen}
+              onAddPlace={handleAddPlaceSubmit}
+          />
 
           {selectedCard && (
             <ImagePopup
