@@ -10,14 +10,16 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import {EditProfilePopup} from "./EditProfilePopup";
 import {EditAvatarPopup} from "./EditAvatarPopup";
 import {AddPlacePopup} from "./AddPlacePopup";
+import {ConfirmationPopup} from "./ConfirmationPopup";
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
     const [isClickCardPopupOpen, setClickCardPopupOpen] = useState(false);
+    const [isConfirmationPopupOpen, setConfirmationPopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState([]);
-    const [currentUser, setCurrentUser] = useState([])
+    const [currentUser, setCurrentUser] = useState([]);
     const [cards, setCards] = useState([]);
 
     const api = new Api(apiConfig);
@@ -51,11 +53,17 @@ function App() {
         setSelectedCard(card);
     }
 
+    function handleDeleteIconClick(card) {
+        setConfirmationPopupOpen(true);
+        setSelectedCard(card)
+    }
+
     function closeAllPopups() {
         setAddPlacePopupOpen(false)
         setEditProfilePopupOpen(false)
         setEditAvatarPopupOpen(false)
         setClickCardPopupOpen(false)
+        setConfirmationPopupOpen(false)
     }
 
     function handleCardLike(card) {
@@ -80,6 +88,7 @@ function App() {
         api.deleteCard(card._id)
             .then(() => {
                 setCards((state) => state.filter((c) => c._id !== card._id));
+                closeAllPopups()
             })
             .catch(err => console.log(`Ошибка удаления карточки: ${err}`))
     }
@@ -120,8 +129,8 @@ function App() {
               onAddPlace = {handleAddPlaceClick}
               onEditAvatar = {handleEditAvatarClick}
               onCardClick = {handleCardImageClick}
+              onCardDeleteIconClick={handleDeleteIconClick}
               onCardLike = {handleCardLike}
-              onCardDelete = {handleCardDelete}
           >
           </Main>
           <Footer />
@@ -140,7 +149,14 @@ function App() {
               isOpen={isAddPlacePopupOpen}
               onAddPlace={handleAddPlaceSubmit}
           />
-
+          {selectedCard &&
+            <ConfirmationPopup
+                onClose={closeAllPopups}
+                isOpen={isConfirmationPopupOpen}
+                onCardDelete={handleCardDelete}
+                card={selectedCard}
+            />
+          }
           {selectedCard && (
             <ImagePopup
                 id={selectedCard._id}

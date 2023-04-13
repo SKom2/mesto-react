@@ -16,7 +16,7 @@ export function Card(props) {
     }
 
     function handleDeleteClick() {
-        props.onCardDelete(props.card)
+        props.onCardDeleteIconClick(props.card)
     }
 
     return (
