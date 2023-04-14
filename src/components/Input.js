@@ -1,19 +1,21 @@
-import {forwardRef} from "react";
+    import {forwardRef} from "react";
 
-export const Input = forwardRef((props, ref) => {
-    return(
-        <input
-            type={props.type}
-            className={`form__input form__input_el_${props.className}`}
-            id={props.id}
-            name={props.name}
-            placeholder={props.placeholder}
-            minLength={props.minLength}
-            maxLength={props.maxLength}
-            value={props.value || ''}
-            onChange={props.onChange}
-            ref={ref}
-            required
-        />
-    )
-})
+    export const Input = forwardRef((props, ref) => {
+
+
+        return(
+            <input
+                type={props.type}
+                className={`form__input form__input_el_${props.className}`}
+                id={props.id}
+                name={props.name}
+                placeholder={props.placeholder}
+                minLength={props.minLength}
+                maxLength={props.maxLength}
+                value={props.value || ''}
+                onChange={props.onChange}
+                ref={ref}
+                required
+            />
+        )
+    })
