@@ -10,7 +10,6 @@ export function ImagePopup(props) {
                     alt="#"
                     className="popup__image"
                     src={`${props.link}`}
-                    style={{ backgroundImage: `${props.link}` }}
                 ></img>
                 <h2 className="popup__title">{props.name}</h2>
             </div>

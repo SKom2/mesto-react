@@ -1,8 +1,6 @@
     import {forwardRef} from "react";
 
     export const Input = forwardRef((props, ref) => {
-
-
         return(
             <input
                 type={props.type}

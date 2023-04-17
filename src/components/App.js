@@ -18,8 +18,8 @@ function App() {
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
     const [isClickCardPopupOpen, setClickCardPopupOpen] = useState(false);
     const [isConfirmationPopupOpen, setConfirmationPopupOpen] = useState(false);
-    const [selectedCard, setSelectedCard] = useState([]);
-    const [currentUser, setCurrentUser] = useState([]);
+    const [selectedCard, setSelectedCard] = useState({});
+    const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
 
     const api = new Api(apiConfig);
