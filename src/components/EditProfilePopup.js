@@ -18,10 +18,12 @@ export function EditProfilePopup (props) {
             name="edit-profile"
             title="Редактировать профиль"
             button="Сохранить"
+            loadButton="Сохранение..."
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
             isValid={isValid}
+            isLoad={props.isLoad}
         >
             <Input
                 type="text"

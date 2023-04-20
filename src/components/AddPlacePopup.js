@@ -20,10 +20,12 @@ export function AddPlacePopup(props) {
             name="add-cards"
             title="Новое место"
             button="Создать"
+            loadButton="Создание..."
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
             isValid={isValid}
+            isLoad={props.isLoad}
         >
             <Input
                 type="text"
@@ -35,6 +37,7 @@ export function AddPlacePopup(props) {
                 maxLength="30"
                 value={values.name}
                 onChange={handleChange}
+                isLoad={props.isLoad}
             >
             </Input>
             <span className="form__input-error photo-name-error">{errors.name}</span>

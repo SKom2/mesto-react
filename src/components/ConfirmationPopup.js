@@ -14,10 +14,12 @@ export function ConfirmationPopup(props) {
             name="delete-card"
             title="Вы уверены?"
             button="Да"
+            loadButton="Удаление..."
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
             isValid={!isValid}
+            isLoad={props.isLoad}
         />
     )
 }

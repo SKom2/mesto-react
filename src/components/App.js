@@ -18,6 +18,7 @@ function App() {
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
     const [isClickCardPopupOpen, setClickCardPopupOpen] = useState(false);
     const [isConfirmationPopupOpen, setConfirmationPopupOpen] = useState(false);
+    const [isLoad, setLoadState] = useState(false)
     const [selectedCard, setSelectedCard] = useState({});
     const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
@@ -85,40 +86,55 @@ function App() {
     }
 
     function handleCardDelete(card) {
+        setLoadState(true)
         api.deleteCard(card._id)
             .then(() => {
                 setCards((state) => state.filter((c) => c._id !== card._id));
                 closeAllPopups()
             })
             .catch(err => console.log(`Ошибка удаления карточки: ${err}`))
+            .finally(() => {
+                setLoadState(false);
+            })
     }
 
     function handleUpdateUser(data) {
+        setLoadState(true)
         api.editProfile(data)
             .then((updateUser) => {
                 setCurrentUser(updateUser)
                 closeAllPopups()
             })
             .catch(err => console.log(`Ошибка редактирования профиля: ${err}`))
+            .finally(() => {
+                setLoadState(false);
+            })
     }
 
     function handleUpdateAvatar({avatar}) {
+        setLoadState(true)
         api.editAvatar(avatar)
             .then((updateAvatar) => {
                 setCurrentUser(updateAvatar);
                 closeAllPopups();
             })
             .catch(err => console.log(`Ошибка добавления аватара: ${err}`))
-
+            .finally(() => {
+                setLoadState(false);
+            })
     }
 
     function handleAddPlaceSubmit(data) {
+        setLoadState(true)
         api.addCard(data)
             .then((newCard) => {
                 setCards([newCard, ...cards])
                 closeAllPopups()
             })
             .catch(err => console.log(`Ошибка добавления карточки: ${err}`))
+            .finally(() => {
+                setLoadState(false);
+            })
     }
 
     return (
@@ -138,16 +154,19 @@ function App() {
               isOpen={isEditProfilePopupOpen}
               onClose={closeAllPopups}
               onUpdateUser={handleUpdateUser}
+              isLoad={isLoad}
           />
           <EditAvatarPopup
               onClose={closeAllPopups}
               isOpen={isEditAvatarPopupOpen}
               onUpdateAvatar={handleUpdateAvatar}
+              isLoad={isLoad}
           />
           <AddPlacePopup
               onClose={closeAllPopups}
               isOpen={isAddPlacePopupOpen}
               onAddPlace={handleAddPlaceSubmit}
+              isLoad={isLoad}
           />
           {selectedCard &&
             <ConfirmationPopup
@@ -155,6 +174,7 @@ function App() {
                 isOpen={isConfirmationPopupOpen}
                 onCardDelete={handleCardDelete}
                 card={selectedCard}
+                isLoad={isLoad}
             />
           }
           {selectedCard && (

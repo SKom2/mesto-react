@@ -18,10 +18,12 @@ export function EditAvatarPopup(props) {
             name="edit-avatar"
             title="Обновить аватар"
             button="Сохранить"
+            loadButton="Сохранение..."
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
             isValid={isValid}
+            isLoad={props.isLoad}
         >
             <Input
                 type="url"
