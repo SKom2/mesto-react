@@ -1,35 +1,18 @@
 import {PopupWithForm} from "./PopupWithForm";
-import React, {useState, useRef, useEffect} from "react";
 import {Input} from "./Input";
+import {useForm} from "../hooks/useForm";
 
 export function AddPlacePopup(props) {
-    const [name, setName] = useState('')
-    const [link, setLink] = useState('')
-    const nameInput = useRef(name)
-    const linkInput = useRef(link)
-
-    useEffect(() => {
-        if(props.isOpen) {
-            setName('');
-            setLink('')
-        }
-    }, [props.isOpen])
-
-    function handleNameChange(e) {
-        setName(e.target.value);
-    }
-
-    function handleLinkChange(e) {
-        setLink(e.target.value);
-    }
+    const { values, handleChange, resetForm, errors, isValid } = useForm();
 
     function handleSubmit(evt) {
         evt.preventDefault()
 
         props.onAddPlace({
-            name: nameInput.current.value,
-            link: linkInput.current.value
+            name: values.name,
+            link: values.link
         })
+        resetForm()
     }
 
     return(
@@ -40,6 +23,7 @@ export function AddPlacePopup(props) {
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
+            isValid={isValid}
         >
             <Input
                 type="text"
@@ -49,24 +33,22 @@ export function AddPlacePopup(props) {
                 placeholder="Название"
                 minLength="2"
                 maxLength="30"
-                value={name}
-                onChange={handleNameChange}
-                ref={nameInput}
+                value={values.name}
+                onChange={handleChange}
             >
             </Input>
-            <span className="form__input-error photo-name-error"></span>
+            <span className="form__input-error photo-name-error">{errors.name}</span>
             <Input
                 type="url"
                 className="subheading"
                 id="photo-link"
                 name="link"
                 placeholder="Ссылка на картинку"
-                value={link}
-                onChange={handleLinkChange}
-                ref={linkInput}
+                value={values.link}
+                onChange={handleChange}
             >
             </Input>
-            <span className="form__input-error photo-link-error"></span>
+            <span className="form__input-error photo-link-error">{errors.link}</span>
         </PopupWithForm>
     )
 }

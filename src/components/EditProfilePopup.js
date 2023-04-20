@@ -1,33 +1,15 @@
-import {useState, useEffect, useContext} from "react";
 import {Input} from "./Input";
 import {PopupWithForm} from "./PopupWithForm";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import {useForm} from "../hooks/useForm";
 
 export function EditProfilePopup (props) {
-    const {currentUser} = useContext(CurrentUserContext);
-    const [name, setName] = useState(currentUser.name)
-    const [description, setDescription] = useState(currentUser.about);
-
-    useEffect(() => {
-        if (props.isOpen) {
-            setName(currentUser.name);
-            setDescription(currentUser.about);
-        }
-    }, [currentUser, props.isOpen]);
-
-    function handleNameChange(e) {
-        setName(e.target.value)
-    }
-
-    function handleDescriptionChange(e) {
-        setDescription(e.target.value)
-    }
+    const { values, handleChange, errors, isValid } = useForm();
 
     function handleSubmit(e) {
         e.preventDefault();
         props.onUpdateUser({
-            name,
-            about: description,
+            name: values.name,
+            about: values.about,
         });
     }
 
@@ -39,6 +21,7 @@ export function EditProfilePopup (props) {
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
+            isValid={isValid}
         >
             <Input
                 type="text"
@@ -48,10 +31,10 @@ export function EditProfilePopup (props) {
                 placeholder="Имя"
                 minLength="2"
                 maxLength="40"
-                value={name}
-                onChange={handleNameChange}
+                value={values.name || ''}
+                onChange={handleChange}
             />
-            <span className="form__input-error name-error"></span>
+            <span className="form__input-error name-error">{errors.name}</span>
             <Input
                 type="text"
                 className="subheading"
@@ -60,10 +43,10 @@ export function EditProfilePopup (props) {
                 placeholder="О себе"
                 minLength="2"
                 maxLength="200"
-                value={description}
-                onChange={handleDescriptionChange}
+                value={values.about || ''}
+                onChange={handleChange}
             />
-            <span className="form__input-error about-person-error"></span>
+            <span className="form__input-error about-person-error">{errors.about}</span>
         </PopupWithForm>
     )
 }

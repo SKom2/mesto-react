@@ -1,6 +1,4 @@
-    import {forwardRef} from "react";
-
-    export const Input = forwardRef((props, ref) => {
+    export const Input = (props) => {
         return(
             <input
                 type={props.type}
@@ -12,8 +10,7 @@
                 maxLength={props.maxLength}
                 value={props.value || ''}
                 onChange={props.onChange}
-                ref={ref}
                 required
             />
         )
-    })
+    }

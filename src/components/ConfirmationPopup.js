@@ -1,6 +1,8 @@
 import {PopupWithForm} from "./PopupWithForm";
+import {useForm} from "../hooks/useForm";
 
 export function ConfirmationPopup(props) {
+    const { isValid } = useForm();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -15,6 +17,7 @@ export function ConfirmationPopup(props) {
             onClose={props.onClose}
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
+            isValid={!isValid}
         />
     )
 }
