@@ -18,7 +18,7 @@ export function EditAvatarPopup(props) {
         if (props.isOpen) {
             resetForm()
             setIsValid(true)
-            setErrors('')
+            setErrors({})
         }
     }, [props.isOpen, setErrors, setIsValid, resetForm])
 
