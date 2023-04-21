@@ -29,6 +29,8 @@ export const useForm = () => {
         isValid,
         handleChange,
         setValues,
+        setIsValid,
+        setErrors,
         resetForm
     };
 }

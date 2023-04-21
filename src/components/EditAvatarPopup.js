@@ -1,9 +1,10 @@
 import {PopupWithForm} from "./PopupWithForm";
 import {Input} from "./Input";
 import {useForm} from "../hooks/useForm";
+import {useEffect} from "react";
 
 export function EditAvatarPopup(props) {
-    const { values, handleChange, resetForm, errors, isValid } = useForm();
+    const { values, handleChange, resetForm, errors, isValid, setIsValid, setErrors } = useForm();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -12,6 +13,14 @@ export function EditAvatarPopup(props) {
         });
         resetForm()
     }
+
+    useEffect(() => {
+        if (props.isOpen) {
+            resetForm()
+            setIsValid(true)
+            setErrors('')
+        }
+    }, [props.isOpen, setErrors, setIsValid, resetForm])
 
     return(
         <PopupWithForm

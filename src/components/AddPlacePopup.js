@@ -1,9 +1,10 @@
 import {PopupWithForm} from "./PopupWithForm";
 import {Input} from "./Input";
 import {useForm} from "../hooks/useForm";
+import {useEffect} from "react";
 
 export function AddPlacePopup(props) {
-    const { values, handleChange, resetForm, errors, isValid } = useForm();
+    const { values, handleChange, resetForm, errors, isValid, setErrors, setIsValid } = useForm();
 
     function handleSubmit(evt) {
         evt.preventDefault()
@@ -12,8 +13,15 @@ export function AddPlacePopup(props) {
             name: values.name,
             link: values.link
         })
-        resetForm()
     }
+
+    useEffect(() => {
+        if (props.isOpen) {
+            resetForm()
+            setIsValid(true)
+            setErrors('')
+        }
+    }, [props.isOpen, setErrors, setIsValid, resetForm])
 
     return(
         <PopupWithForm

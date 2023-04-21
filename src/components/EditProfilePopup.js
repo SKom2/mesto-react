@@ -1,9 +1,12 @@
 import {Input} from "./Input";
 import {PopupWithForm} from "./PopupWithForm";
 import {useForm} from "../hooks/useForm";
+import {useContext, useEffect} from "react";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 export function EditProfilePopup (props) {
-    const { values, handleChange, errors, isValid } = useForm();
+    const { currentUser } = useContext(CurrentUserContext)
+    const { values, handleChange, errors, isValid, setValues, setIsValid, setErrors } = useForm();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -12,6 +15,17 @@ export function EditProfilePopup (props) {
             about: values.about,
         });
     }
+
+    useEffect(() => {
+        if (props.isOpen) {
+            setValues({
+                name: currentUser.name || '',
+                about: currentUser.about || ''
+            })
+            setIsValid(true)
+            setErrors('')
+        }
+    },[ props.isOpen, currentUser, setValues, setIsValid, setErrors ])
 
     return (
         <PopupWithForm
