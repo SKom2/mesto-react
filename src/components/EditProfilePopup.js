@@ -23,7 +23,7 @@ export function EditProfilePopup (props) {
                 about: currentUser.about || ''
             })
             setIsValid(true)
-            setErrors('')
+            setErrors({})
         }
     },[ props.isOpen, currentUser, setValues, setIsValid, setErrors ])
 

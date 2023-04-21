@@ -19,11 +19,11 @@ export function AddPlacePopup(props) {
         if (props.isOpen) {
             resetForm()
             setIsValid(true)
-            setErrors('')
+            setErrors({})
         }
     }, [props.isOpen, setErrors, setIsValid, resetForm])
 
-    return(
+    return (
         <PopupWithForm
             name="add-cards"
             title="Новое место"
@@ -43,11 +43,9 @@ export function AddPlacePopup(props) {
                 placeholder="Название"
                 minLength="2"
                 maxLength="30"
-                value={values.name}
+                value={values.name || ''}
                 onChange={handleChange}
-                isLoad={props.isLoad}
-            >
-            </Input>
+                />
             <span className="form__input-error photo-name-error">{errors.name}</span>
             <Input
                 type="url"
@@ -55,10 +53,9 @@ export function AddPlacePopup(props) {
                 id="photo-link"
                 name="link"
                 placeholder="Ссылка на картинку"
-                value={values.link}
+                value={values.link || ''}
                 onChange={handleChange}
-            >
-            </Input>
+            />
             <span className="form__input-error photo-link-error">{errors.link}</span>
         </PopupWithForm>
     )
